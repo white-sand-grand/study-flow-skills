@@ -48,7 +48,7 @@ study-flow/
 
 ## 安装
 
-克隆到 Claude Code 或 Codex 的技能目录：
+克隆到客户端的技能目录：
 
 ```bash
 # Claude Code
@@ -62,15 +62,15 @@ git clone git@github.com:white-sand-grand/study-flow-skills.git ~/.codex/skills/
 
 ## 使用
 
-在对话中声明使用即可，例如：
+已注册为技能命令，直接调用即可：
 
 ```text
-使用 study-flow 整理这些课件
-使用 study-flow 解一下这份作业（附图片）
-用 study-flow 做期末复习整合
+/study-flow 整理这些课件
+/study-flow 解一下这份作业（附图片）
+/study-flow 做期末复习整合
 ```
 
-技能会先识别材料语言并说明选用的分支与将要更新的学习库，再开始整理。
+调用后技能会先识别材料语言，说明选用的分支与将要更新的学习库，再开始整理。
 
 ## 脚本用法
 
