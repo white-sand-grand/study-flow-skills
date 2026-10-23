@@ -1,0 +1,15 @@
+{
+  "kind": "index",
+  "course": "study-flow 设计样例",
+  "title": "课程学习与期末复习",
+  "subtitle": "固定架构与公式呈现示范。这里的题目仅用于展示，不计入真实课程学习库。",
+  "tags": ["统一设计 v1", "离线可读", "中英文分流"],
+  "sections": {
+    "overview": "<div class=\"callout\"><strong>从理解知识到独立解题</strong>按知识点建立联系，按题型掌握方法，按来源复核结论。所有内容持续积累在同一个课程学习库中。</div><div class=\"grid\"><div class=\"card\"><span class=\"tag\">01 · 知识</span><h3>章节总结</h3><p>概念、公式、适用条件与题型地图。</p></div><div class=\"card\"><span class=\"tag\">02 · 方法</span><h3>作业解析</h3><p>语言自动分流，逐题给出过程与依据。</p></div><div class=\"card\"><span class=\"tag\">03 · 复习</span><h3>自测与回看</h3><p>从知识点直达例题和常见误区。</p></div></div>",
+    "chapters": "<div class=\"grid\"><div class=\"card\"><h3><a href=\"chapter-demo.html\">导数、积分与数学表达</a></h3><p>查看概念卡片、公式排版、题型地图和折叠自测。</p><span class=\"tag\">总结页模板</span></div></div>",
+    "homework": "<div class=\"grid\"><div class=\"card\"><h3><a href=\"homework-demo.html\">双语与中文作业示例</a></h3><p>同页展示英文完整流程和中文简化流程，并提供答案速查。</p><span class=\"tag\">作业页模板</span></div></div>",
+    "topics": "<div class=\"table-scroll\"><table><thead><tr><th>知识点 / 题型</th><th>学习入口</th><th>训练入口</th></tr></thead><tbody><tr><td>初值积分</td><td><a href=\"chapter-demo.html#theory\">公式与条件</a></td><td><a href=\"homework-demo.html#demo-p1\">英文例题</a></td></tr><tr><td>线性方程组</td><td><a href=\"chapter-demo.html#theory\">矩阵表示</a></td><td><a href=\"homework-demo.html#demo-p2\">中文例题</a></td></tr></tbody></table></div>",
+    "review": "<p>正式课程中这里连接当前已整理的复习范围、公式速查、代表题和待补清单。没有真题证据时不标注“必考”。</p><p><a href=\"chapter-demo.html#review\">先试做，再展开参考答案 →</a></p>"
+  },
+  "sources_html": "<p>本页为通用设计样例；不引用真实课件，不表示已完成任何课程的知识覆盖。</p><p class=\"source-note\">本地样式、脚本和数学字体随页面打包；实际运行技能时应把本栏替换为本次来源与核验结果。</p>"
+}

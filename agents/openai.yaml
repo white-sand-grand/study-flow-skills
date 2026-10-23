@@ -1,0 +1,4 @@
+interface:
+  display_name: "study-flow"
+  short_description: "跨学科课程与作业：中英文分流、固定 HTML 设计、原式渲染与复习资产"
+  default_prompt: "使用 $study-flow 整理这些课程材料或作业，识别语言，归纳知识点与考点，解题，按固定设计生成 HTML、忠实渲染全部公式并更新复习学习库。"

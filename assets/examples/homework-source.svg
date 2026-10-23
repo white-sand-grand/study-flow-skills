@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="740" viewBox="0 0 1000 740">
+  <rect width="1000" height="740" fill="#fffdf7"/>
+  <rect x="45" y="45" width="910" height="650" rx="8" fill="none" stroke="#ccc5b5"/>
+  <g fill="#243448" font-family="Arial, Microsoft YaHei, sans-serif">
+    <text x="85" y="115" font-size="20" fill="#7a7a70">STUDY-FLOW · 原题图片布局演示</text>
+    <text x="85" y="180" font-size="30" font-weight="bold">Problem 1 · Time-dependent force</text>
+    <text x="85" y="235" font-size="23">A particle of mass m is initially at rest.</text>
+    <text x="85" y="277" font-size="23">A net force F(t) = Ct² acts in a fixed positive direction.</text>
+    <text x="85" y="319" font-size="23">Find its velocity as a function of time.</text>
+    <path d="M85 365 H915" stroke="#ccc5b5"/>
+    <text x="85" y="430" font-size="30" font-weight="bold">题目 2 · 二元线性方程组</text>
+    <text x="85" y="480" font-size="23">求方程组 x + y = 3，2x − y = 0 的解，并代回验证。</text>
+    <text x="85" y="585" font-size="20" fill="#77756b">通用模板原创演示图；并非用户课件或真实教材截图。</text>
+    <text x="85" y="625" font-size="20" fill="#77756b">真实作业运行时，此处替换为归档后的题目照片或扫描原页。</text>
+  </g>
+</svg>

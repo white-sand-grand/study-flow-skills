@@ -1,0 +1,39 @@
+{
+  "kind": "homework",
+  "course": "study-flow 设计样例",
+  "title": "逐题解析：英文与中文分流",
+  "subtitle": "固定的题目卡片与步骤层级，保留每道题的推理过程、理论依据和最终结论。",
+  "tags": ["2 道演示题", "逐题语言识别", "完整解题"],
+  "source_images": [{"id": "demo-source-1", "src": "sources/demo-homework.svg", "label": "演示原图 · 两道题"}],
+  "overview_html": "<p>例题 1 采用英文完整流程，例题 2 采用中文流程。以下为原创演示题，不引用用户的真实作业。</p><div class=\"callout\"><strong>先看题，再看解法</strong>每道题的答案保持可见；自测题的答案才默认折叠。公式无需联网即可渲染。</div>",
+  "problems": [
+    {
+      "id": "demo-p1",
+      "title": "例题 1 · 随时间变化的力",
+      "language": "en",
+      "parts": {
+        "original": "<p>A particle of mass <span class=\"math-inline\" data-tex=\"m\" data-formula-id=\"p1-m\" data-source=\"derived:demo-p1\"></span> is initially at rest. A net force <span class=\"math-inline\" data-tex=\"F(t)=Ct^2\" data-formula-id=\"p1-force\" data-source=\"derived:demo-p1\"></span> acts in a fixed positive direction. Find its velocity as a function of time.</p>",
+        "translation": "<p>质量为 <span class=\"math-inline\" data-tex=\"m\" data-formula-id=\"p1-m\" data-source=\"derived:demo-p1\"></span> 的质点初始静止，受到沿固定正方向、随时间变化的合力：</p><div class=\"math-display\" data-tex=\"F(t)=Ct^2\" data-formula-id=\"p1-force\" data-source=\"derived:demo-p1\"></div><p>求其速度关于时间的函数。</p>",
+        "terms": "<div class=\"table-scroll\"><table><thead><tr><th>English</th><th>中文</th><th>本题含义</th></tr></thead><tbody><tr><td>net force</td><td>合力</td><td>所有外力的合成</td></tr><tr><td>initially at rest</td><td>初始静止</td><td>初始速度为零</td></tr></tbody></table></div>",
+        "solution_en": "<p>By Newton's second law,</p><div class=\"math-display\" data-tex=\"m\\frac{dv}{dt}=Ct^2.\" data-formula-id=\"p1-newton\" data-source=\"derived:demo-p1\"></div><p>Integrating from the initial time and using the zero initial velocity gives</p><div class=\"math-display\" data-tex=\"v(t)=\\int_0^t\\frac{C}{m}\\tau^2\\,d\\tau=\\frac{Ct^3}{3m}.\" data-formula-id=\"p1-solution\" data-source=\"derived:demo-p1\"></div>",
+        "analysis_zh": "<p>先由合力得到加速度，再按时间积分。因为加速度随时间改变，不能把终点加速度直接乘时间。初始静止消除了速度积分中的常数。</p>",
+        "theory": "<p>牛顿第二定律与加速度定义：</p><div class=\"math-display\" data-tex=\"\\sum\\vec{F}=m\\vec{a},\\qquad a=\\frac{dv}{dt}\" data-formula-id=\"p1-theory\" data-source=\"derived:demo-p1\"></div><p>本题质量不变，运动方向固定。</p>",
+        "pitfalls": "<div class=\"callout warning\"><strong>不要套用恒加速度公式</strong>把时变加速度乘时间会漏掉积分因子。检查时对所得速度求导，再乘质量，应恢复题给合力。</div>"
+      },
+      "answer_html": "<div class=\"math-display\" data-tex=\"v(t)=\\frac{Ct^3}{3m}\" data-formula-id=\"p1-answer\" data-source=\"derived:demo-p1\"></div>"
+    },
+    {
+      "id": "demo-p2",
+      "title": "例题 2 · 二元线性方程组",
+      "language": "zh",
+      "parts": {
+        "original": "<p>求下列方程组的解，并代回验证。</p><div class=\"math-display\" data-tex=\"\\begin{cases}x+y=3\\\\2x-y=0\\end{cases}\" data-formula-id=\"p2-original\" data-source=\"derived:demo-p2\"></div>",
+        "analysis_zh": "<p>两式相加消去第二个未知量，得到：</p><div class=\"math-display\" data-tex=\"3x=3\\quad\\Longrightarrow\\quad x=1.\" data-formula-id=\"p2-eliminate\" data-source=\"derived:demo-p2\"></div><p>代回第一式求得另一个未知量，再检查第二式：</p><div class=\"math-display\" data-tex=\"y=3-1=2,\\qquad 2\\times1-2=0.\" data-formula-id=\"p2-check\" data-source=\"derived:demo-p2\"></div>",
+        "theory": "<p>等式相加与消元法。该方程组系数矩阵的行列式不为零，因此解唯一。</p><div class=\"math-display\" data-tex=\"\\det\\begin{bmatrix}1&amp;1\\\\2&amp;-1\\end{bmatrix}=-3\\ne0\" data-formula-id=\"p2-determinant\" data-source=\"derived:demo-p2\"></div>",
+        "pitfalls": "<ul><li>相加时注意负号，不能漏掉第二个方程中的减号。</li><li>必须检查两个原始方程，而不是只检查其中一个。</li></ul>"
+      },
+      "answer_html": "<div class=\"math-display\" data-tex=\"x=1,\\qquad y=2\" data-formula-id=\"p2-answer\" data-source=\"derived:demo-p2\"></div>"
+    }
+  ],
+  "sources_html": "<p>本页两道题均为通用模板原创示例，全部公式来源标记为演示推导。实际作业需提供题图、页码、题号及实际核验记录。</p>"
+}

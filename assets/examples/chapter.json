@@ -1,0 +1,18 @@
+{
+  "kind": "chapter",
+  "course": "study-flow 设计样例",
+  "title": "导数、积分与数学表达",
+  "subtitle": "总结页：先建立知识地图，再连接条件、方法、例题与自测。",
+  "tags": ["中文学习分支", "知识总结", "公式排版示范"],
+  "sections": {
+    "overview": "<div class=\"grid\"><div class=\"card\"><h3>理解对象</h3><p>变化率、累积量与初始条件。</p></div><div class=\"card\"><h3>掌握方法</h3><p>从已知变化规律出发，通过积分恢复状态量。</p></div></div><div class=\"callout\"><strong>本章联系</strong>先判断变量之间的关系，再选用定义或定理；公式的适用条件与公式本身同样重要。</div>",
+    "concepts": "<h3>变化率与累积量</h3><p>导数刻画局部变化，定积分刻画区间内的累积。初值用于确定积分后产生的常数。</p><p>导数表示为 <span class=\"math-inline\" data-tex=\"f'(t)\" data-formula-id=\"demo-derivative\" data-source=\"derived:design-demo\"></span>，与平均变化率的概念不同。</p>",
+    "theory": "<h3>初值积分</h3><div class=\"math-display\" data-tex=\"v(t)=v_0+\\int_{t_0}^{t}a(\\tau)\\,d\\tau\" data-formula-id=\"demo-integral\" data-source=\"derived:design-demo\"></div><p class=\"source-note\">演示推导：若加速度在相应区间可积分，结合初始速度确定速度函数。</p><h3>向量与多行对齐</h3><div class=\"math-display\" data-tex=\"\\begin{aligned}\\vec{v}(t)&=\\frac{d\\vec{r}}{dt}\\\\\\vec{a}(t)&=\\frac{d\\vec{v}}{dt}=\\frac{d^2\\vec{r}}{dt^2}\\end{aligned}\" data-formula-id=\"demo-vector\" data-source=\"derived:design-demo\"></div><h3>矩阵、分段与求和</h3><div class=\"math-display\" data-tex=\"\\begin{bmatrix}1&amp;1\\\\2&amp;-1\\end{bmatrix}\\begin{bmatrix}x\\\\y\\end{bmatrix}=\\begin{bmatrix}3\\\\0\\end{bmatrix}\" data-formula-id=\"demo-matrix\" data-source=\"derived:demo-p2\"></div><div class=\"math-display\" data-tex=\"|x|=\\begin{cases}x,&amp;x\\ge 0\\\\-x,&amp;x&lt;0\\end{cases}\\qquad \\sum_{k=1}^{n}k=\\frac{n(n+1)}{2}\" data-formula-id=\"demo-cases\" data-source=\"derived:design-demo\"></div><h3>化学式扩展示范</h3><div class=\"math-display\" data-tex=\"\\ce{2H2 + O2 -&gt; 2H2O}\" data-formula-id=\"demo-chemistry\" data-source=\"derived:design-demo\"></div><p class=\"small\">本段仅检验跨学科数学排版能力，实际课程不应混入无关学科内容。</p>",
+    "types": "<div class=\"table-scroll\"><table><thead><tr><th>识别线索</th><th>方法与关键条件</th><th>训练入口</th></tr></thead><tbody><tr><td>已知随时间变化的加速度</td><td>积分并使用初始条件，不能误套恒加速度公式</td><td><a href=\"homework-demo.html#demo-p1\">例题 1</a></td></tr><tr><td>两条独立线性约束</td><td>消元或矩阵法，并把结果代回两个方程</td><td><a href=\"homework-demo.html#demo-p2\">例题 2</a></td></tr></tbody></table></div>",
+    "examples": "<p>本设计样例的完整解题卡片位于作业示范页，分别展示两种语言分支。</p><p><a href=\"homework-demo.html#demo-p1\">英文原题与双语过程 →</a>　<a href=\"homework-demo.html#demo-p2\">中文原题与中文解析 →</a></p>",
+    "exam": "<span class=\"tag\">推测 · 复习重点</span><p>可围绕“初值如何确定积分常数”和“何时不能使用恒加速度公式”自测。这里没有课程大纲或历年真题，不能据此认定考试频率。</p>",
+    "pitfalls": "<div class=\"callout warning\"><strong>把特殊公式当作普遍规律</strong>变化的加速度应积分处理，不能直接乘时间。每次应用定理前先检查其条件。</div><ul><li>积分后遗漏初值。</li><li>向量箭头、分母括号或上下限转录错误。</li><li>只得到数值却没有代回原条件检查。</li></ul>",
+    "review": "<details><summary>为什么积分后必须使用初始条件？</summary><p>参考答案：不同积分常数对应不同解；初值选出满足题目条件的具体解。</p></details><details><summary>如何检查一个方程组的解？</summary><p>把解分别代回所有原始方程，确认每条约束都成立。</p></details>"
+  },
+  "sources_html": "<p>以上是通用教学与排版示例，所有公式标为演示推导，不冒充原课件公式。</p><p>实际使用时逐式记录原始文件与页码，渲染成功后仍须对照原图核对。</p>"
+}
