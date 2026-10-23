@@ -1,6 +1,6 @@
 # study-flow
 
-一个面向 Claude Code / Codex 的技能（skill）：把课程课件、教材、笔记和作业，整理成**可追溯、可续写、适合期末复习**的离线 HTML 学习库。
+一个面向 Codex / Claude Code 的技能（skill）：把课程课件、教材、笔记和作业，整理成**可追溯、可续写、适合期末复习**的离线 HTML 学习库。
 
 理工、计算机、经管、医学、人文社科及语言类课程通用。默认中文交流；遇到英文材料自动切换到完整的双语解题流程。
 
@@ -68,6 +68,7 @@ git clone git@github.com:white-sand-grand/study-flow-skills.git ~/.codex/skills/
 /study-flow 整理这些课件
 /study-flow 解一下这份作业（附图片）
 /study-flow 做期末复习整合
+/study-flow
 ```
 
 调用后技能会先识别材料语言，说明选用的分支与将要更新的学习库，再开始整理。
