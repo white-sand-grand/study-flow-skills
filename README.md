@@ -56,6 +56,9 @@ git clone git@github.com:white-sand-grand/study-flow-skills.git ~/.claude/skills
 
 # Codex
 git clone git@github.com:white-sand-grand/study-flow-skills.git ~/.codex/skills/study-flow
+
+# DSH
+git clone git@github.com:white-sand-grand/study-flow-skills.git ~/.dsh/skills/study-flow
 ```
 
 无第三方 Python 依赖，脚本只用标准库。
