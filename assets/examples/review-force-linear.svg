@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="460" viewBox="0 0 720 460">
+  <rect width="720" height="460" fill="#fff"/>
+  <g font-family="Segoe UI, Microsoft YaHei, sans-serif" fill="#182027">
+    <text x="36" y="52" font-size="18" fill="#087f6a">自编演示题图 · 第 1 题</text>
+    <text x="36" y="100" font-size="25" font-weight="bold">力随时间线性增加</text>
+    <text x="36" y="149" font-size="21">质量 2 kg，初始静止，合力方向固定。</text>
+    <text x="36" y="188" font-size="21">合力为 F(t) = (2 N/s)t，求 2 s 时的速度。</text>
+    <path d="M100 360H550M100 360V225" fill="none" stroke="#66717a" stroke-width="2"/>
+    <path d="M100 360L490 245L490 360Z" fill="#e6f4f0" stroke="#087f6a" stroke-width="3"/>
+    <text x="98" y="214" font-size="19">a</text>
+    <text x="565" y="367" font-size="19">t</text>
+    <text x="478" y="390" font-size="18">2 s</text>
+    <text x="36" y="435" font-size="16" fill="#66717a">配图为教学示意，不是 PDF/PPT 原题截图。</text>
+  </g>
+</svg>

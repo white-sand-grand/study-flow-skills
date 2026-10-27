@@ -16,7 +16,7 @@
         "translation": "<p>质量为 <span class=\"math-inline\" data-tex=\"m\" data-formula-id=\"p1-m\" data-source=\"derived:demo-p1\"></span> 的质点初始静止，受到沿固定正方向、随时间变化的合力：</p><div class=\"math-display\" data-tex=\"F(t)=Ct^2\" data-formula-id=\"p1-force\" data-source=\"derived:demo-p1\"></div><p>求其速度关于时间的函数。</p>",
         "terms": "<div class=\"table-scroll\"><table><thead><tr><th>English</th><th>中文</th><th>本题含义</th></tr></thead><tbody><tr><td>net force</td><td>合力</td><td>所有外力的合成</td></tr><tr><td>initially at rest</td><td>初始静止</td><td>初始速度为零</td></tr></tbody></table></div>",
         "solution_en": "<p>By Newton's second law,</p><div class=\"math-display\" data-tex=\"m\\frac{dv}{dt}=Ct^2.\" data-formula-id=\"p1-newton\" data-source=\"derived:demo-p1\"></div><p>Integrating from the initial time and using the zero initial velocity gives</p><div class=\"math-display\" data-tex=\"v(t)=\\int_0^t\\frac{C}{m}\\tau^2\\,d\\tau=\\frac{Ct^3}{3m}.\" data-formula-id=\"p1-solution\" data-source=\"derived:demo-p1\"></div>",
-        "analysis_zh": "<p>先由合力得到加速度，再按时间积分。因为加速度随时间改变，不能把终点加速度直接乘时间。初始静止消除了速度积分中的常数。</p>",
+        "analysis_zh": "<p>先用合力除以质量得到加速度，也就是每秒给速度增加多少。因为这个数一直在变，不能把最后一刻的加速度乘整个时间；这就像车速不断变化时不能用终点车速计算全程距离。</p><p>积分表示把许多很短时间段的速度增加量加起来：每小段增加的速度近似为当时加速度乘这一小段时长，让时间段越来越短就得到精确的累加。积分中的 τ 是遍历各时刻的临时变量，dτ 表示极短时间片，零与 t 是开始和结束时刻。面积图像就是加速度—时间曲线下的有符号面积。</p><p>平方的累加会得到三次方并除以 3，因为三次方求变化率会带出系数 3；质量和 C 都是常数，可放在累加运算外。初始静止表示初始速度为零，所以不需要再加一个初始速度。检查时对速度函数求变化率并乘质量，应回到题给合力。</p>",
         "theory": "<p>牛顿第二定律与加速度定义：</p><div class=\"math-display\" data-tex=\"\\sum\\vec{F}=m\\vec{a},\\qquad a=\\frac{dv}{dt}\" data-formula-id=\"p1-theory\" data-source=\"derived:demo-p1\"></div><p>本题质量不变，运动方向固定。</p>",
         "pitfalls": "<div class=\"callout warning\"><strong>不要套用恒加速度公式</strong>把时变加速度乘时间会漏掉积分因子。检查时对所得速度求导，再乘质量，应恢复题给合力。</div>"
       },
@@ -29,7 +29,7 @@
       "parts": {
         "original": "<p>求下列方程组的解，并代回验证。</p><div class=\"math-display\" data-tex=\"\\begin{cases}x+y=3\\\\2x-y=0\\end{cases}\" data-formula-id=\"p2-original\" data-source=\"derived:demo-p2\"></div>",
         "analysis_zh": "<p>两式相加消去第二个未知量，得到：</p><div class=\"math-display\" data-tex=\"3x=3\\quad\\Longrightarrow\\quad x=1.\" data-formula-id=\"p2-eliminate\" data-source=\"derived:demo-p2\"></div><p>代回第一式求得另一个未知量，再检查第二式：</p><div class=\"math-display\" data-tex=\"y=3-1=2,\\qquad 2\\times1-2=0.\" data-formula-id=\"p2-check\" data-source=\"derived:demo-p2\"></div>",
-        "theory": "<p>等式相加与消元法。该方程组系数矩阵的行列式不为零，因此解唯一。</p><div class=\"math-display\" data-tex=\"\\det\\begin{bmatrix}1&amp;1\\\\2&amp;-1\\end{bmatrix}=-3\\ne0\" data-formula-id=\"p2-determinant\" data-source=\"derived:demo-p2\"></div>",
+        "theory": "<p>等式相加与消元法。两式相加后只剩一个未知数，先确定它，再代回确定另一个未知数；两者都被唯一确定。</p>",
         "pitfalls": "<ul><li>相加时注意负号，不能漏掉第二个方程中的减号。</li><li>必须检查两个原始方程，而不是只检查其中一个。</li></ul>"
       },
       "answer_html": "<div class=\"math-display\" data-tex=\"x=1,\\qquad y=2\" data-formula-id=\"p2-answer\" data-source=\"derived:demo-p2\"></div>"

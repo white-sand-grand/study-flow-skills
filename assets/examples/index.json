@@ -9,7 +9,7 @@
     "chapters": "<div class=\"grid\"><div class=\"card\"><h3><a href=\"chapter-demo.html\">导数、积分与数学表达</a></h3><p>查看概念卡片、公式排版、题型地图和折叠自测。</p><span class=\"tag\">总结页模板</span></div></div>",
     "homework": "<div class=\"grid\"><div class=\"card\"><h3><a href=\"homework-demo.html\">双语与中文作业示例</a></h3><p>同页展示英文完整流程和中文简化流程，并提供答案速查。</p><span class=\"tag\">作业页模板</span></div></div>",
     "topics": "<div class=\"table-scroll\"><table><thead><tr><th>知识点 / 题型</th><th>学习入口</th><th>训练入口</th></tr></thead><tbody><tr><td>初值积分</td><td><a href=\"chapter-demo.html#theory\">公式与条件</a></td><td><a href=\"homework-demo.html#demo-p1\">英文例题</a></td></tr><tr><td>线性方程组</td><td><a href=\"chapter-demo.html#theory\">矩阵表示</a></td><td><a href=\"homework-demo.html#demo-p2\">中文例题</a></td></tr></tbody></table></div>",
-    "review": "<p>正式课程中这里连接当前已整理的复习范围、公式速查、代表题和待补清单。没有真题证据时不标注“必考”。</p><p><a href=\"chapter-demo.html#review\">先试做，再展开参考答案 →</a></p>"
+    "review": "<p>正式课程中这里连接当前已整理的复习范围、公式速查、代表题和待补清单。没有真题证据时不标注“必考”。</p><p><a href=\"review-demo.html\">题型复习：复习稿设计与高中基础讲解 →</a></p><p><a href=\"chapter-demo.html#review\">先试做，再展开参考答案 →</a></p>"
   },
   "sources_html": "<p>本页为通用设计样例；不引用真实课件，不表示已完成任何课程的知识覆盖。</p><p class=\"source-note\">本地样式、脚本和数学字体随页面打包；实际运行技能时应把本栏替换为本次来源与核验结果。</p>"
 }

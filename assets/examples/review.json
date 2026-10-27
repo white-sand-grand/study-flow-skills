@@ -1,0 +1,43 @@
+{
+  "kind": "review",
+  "course": "study-flow 设计样例",
+  "title": "题型复习：从变化的力求速度",
+  "subtitle": "原创示例，演示题型地图、原图对应、完整公式与以高中基础为起点的中文解析。",
+  "tags": ["原创演示", "2 道代表题", "不代表任何真实课程考点"],
+  "overview_html": "<p>本页只覆盖质量不变、方向固定、初始静止的两道演示题。先理解第 1 题如何累加速度变化，再做第 2 题。题目均为模板自编，不是用户课件原题，也没有真实考试频率依据。</p>",
+  "types_html": "<div class=\"table-scroll\"><table><thead><tr><th>题型</th><th>识别线索</th><th>方法与代表题</th><th>依据</th></tr></thead><tbody><tr><td>力随时间线性变化</td><td>质量固定，力与时间成正比</td><td><a href=\"#review-force-linear\">第 1 题：加速度图下面积</a></td><td>原创教学示例</td></tr><tr><td>力随时间的平方变化</td><td>加速度随时间弯曲增长</td><td><a href=\"#review-force-square\">第 2 题：定积分累加</a></td><td>原创教学示例</td></tr></tbody></table></div>",
+  "quick_reference_html": "<h3>质量不变、运动方向固定</h3><p>先由力求加速度，再累加每个短时间段的速度变化。这里初始速度为零。</p><div class=\"math-display\" data-tex=\"a(t)=\\frac{F(t)}{m},\\qquad v(t)=\\int_0^t a(\\tau)\\,d\\tau\" data-formula-id=\"review-velocity-rule\" data-source=\"derived:review-force-linear\"></div><p>积分符号和时间变量的含义见<a href=\"#review-force-linear-analysis_zh\">第 1 题完整中文讲解</a>。加速度变化时不能直接用最后一刻的加速度乘总时间。</p>",
+  "source_images": [
+    {"id": "review-source-linear", "src": "sources/review-force-linear.svg", "label": "第 1 题自编演示题图 · 并非 PDF/PPT 原题截图"},
+    {"id": "review-source-square", "src": "sources/review-force-square.svg", "label": "第 2 题自编演示题图 · 并非 PDF/PPT 原题截图"}
+  ],
+  "problems": [
+    {
+      "id": "review-force-linear",
+      "title": "第 1 题 · 力随时间线性增加",
+      "language": "zh",
+      "source_image_ids": ["review-source-linear"],
+      "parts": {
+        "original": "<p>质量为 2 kg 的质点初始静止，受到方向固定、随时间变化的合力：</p><div class=\"math-display\" data-tex=\"F(t)=(2\\,\\mathrm{N/s})t\" data-formula-id=\"review-linear-force\" data-source=\"sources/review-force-linear.svg\"></div><p>求 2 s 时的速度。时间从零开始。</p>",
+        "analysis_zh": "<h4>把加速度想成每秒给速度增加多少的仪表</h4><p>质量固定，合力越大，加速度越大。用力除以质量：第 0、1、2 秒的加速度分别是 0、1、2 m/s²。因此速度增加得越来越快，不能把最后一刻的加速度用于整个两秒。</p><div class=\"math-display\" data-tex=\"a(t)=\\frac{F(t)}{m}=(1\\,\\mathrm{m/s^3})t\" data-formula-id=\"review-linear-acceleration\" data-source=\"derived:review-force-linear\"></div><h4>新概念：积分就是把许多小增量加起来</h4><p>把这两秒分成很多极短时间片。在每片里，加速度几乎不变，这一片增加的速度近似等于“当时的加速度 × 这一片时长”。把所有片的增量加起来，再让片越来越细，就得到定积分。它对应加速度—时间图下的有符号面积；本题加速度始终非负，所以每片都给速度添上一点。</p><div class=\"math-display\" data-tex=\"\\Delta v\\approx a(\\tau)\\Delta t,\\qquad v(2\\,\\mathrm{s})-v(0)=\\int_0^{2\\,\\mathrm{s}}a(\\tau)\\,d\\tau\" data-formula-id=\"review-integral-meaning\" data-source=\"derived:review-force-linear\"></div><p>这里的积分号表示连续累加，下限与上限是开始和结束时刻；希腊字母 τ 只是遍历每个时刻的临时变量，dτ 表示趋于极短的时间片，不是另一个需要求出的量。图像是一条从原点升起的直线，下面是底 2 s、高 2 m/s² 的三角形：</p><div class=\"math-display\" data-tex=\"v(2\\,\\mathrm{s})=\\frac12\\times(2\\,\\mathrm{s})\\times(2\\,\\mathrm{m/s^2})=2\\,\\mathrm{m/s}\" data-formula-id=\"review-linear-area\" data-source=\"derived:review-force-linear\"></div><p>检查：如果两秒内始终保持最高加速度，速度才会增加 4 m/s；实际加速度从零匀速升高，平均只有最高值的一半，结果 2 m/s 合理。单位也从加速度乘时间变成速度。</p>",
+        "theory": "<p>牛顿第二定律在质量不变时给出合力等于质量乘加速度；加速度表示速度对时间的变化快慢。因此用定积分将变化率累加，就能恢复这段时间的速度变化。该积分的直观含义已在本题中文解析中展开。</p><div class=\"math-display\" data-tex=\"F=ma,\\qquad a=\\frac{dv}{dt}\" data-formula-id=\"review-newton\" data-source=\"derived:review-force-linear\"></div><p>导数记号 dv/dt 就是将时间片继续缩短后，速度增量与时长的比值；本题不要求先学完整的微积分课程。</p>",
+        "pitfalls": "<div class=\"callout warning\"><strong>不要把终点值当平均值。</strong>末时刻的加速度只描述那一瞬间；把它乘整个两秒，会将三角形面积误算成长方形面积。</div>"
+      },
+      "answer_html": "<div class=\"math-display\" data-tex=\"v(2\\,\\mathrm{s})=2\\,\\mathrm{m/s}\" data-formula-id=\"review-linear-answer\" data-source=\"derived:review-force-linear\"></div>"
+    },
+    {
+      "id": "review-force-square",
+      "title": "第 2 题 · 力随时间的平方增加",
+      "language": "zh",
+      "source_image_ids": ["review-source-square"],
+      "parts": {
+        "original": "<p>质量为 1 kg 的质点初始静止，受到方向固定的合力：</p><div class=\"math-display\" data-tex=\"F(t)=(3\\,\\mathrm{N/s^2})t^2\" data-formula-id=\"review-square-force\" data-source=\"sources/review-force-square.svg\"></div><p>求 2 s 时的速度。时间从零开始。</p>",
+        "analysis_zh": "<p>如<a href=\"#review-force-linear-analysis_zh\">第 1 题</a>一样，也是先求加速度，再累加各个短时间片的速度变化。本题加速度随时间的平方增长，图像弯起来了，不能再用三角形面积计算。</p><div class=\"math-display\" data-tex=\"a(t)=(3\\,\\mathrm{m/s^4})t^2\" data-formula-id=\"review-square-acceleration\" data-source=\"derived:review-force-square\"></div><h4>新的一步：怎样算弯曲图像下的面积</h4><p>我们找一个函数，它在每一瞬间的变化率恰好等于给定加速度。时间的三次方求变化率，会得到三倍的时间平方，所以这里的速度函数正好是带单位系数的时间三次方。先取结束时刻的值，再减开始时刻的值，就得到这一段的累计变化；初始静止意味着没有额外的初始速度。</p><div class=\"math-display\" data-tex=\"v(2\\,\\mathrm{s})=\\int_0^{2\\,\\mathrm{s}}(3\\,\\mathrm{m/s^4})\\tau^2\\,d\\tau=\\left[(1\\,\\mathrm{m/s^4})\\tau^3\\right]_0^{2\\,\\mathrm{s}}=8\\,\\mathrm{m/s}\" data-formula-id=\"review-square-integral\" data-source=\"derived:review-force-square\"></div><p>方括号的上下标表示“结束值减开始值”。验证时对速度函数求变化率，应恢复题给加速度；再乘 1 kg 应恢复原合力。本题结论与第 1 题不同，来自加速度的增长方式不同。</p>",
+        "theory": "<p>本题沿用第 1 题的牛顿第二定律和积分累加原理。新增的计算规则是：若某函数的导数等于被累加的函数，则其结束值减开始值给出定积分。这常称为牛顿—莱布尼茨公式，本题已用“速度函数的变化率恢复加速度”解释其作用。</p>",
+        "pitfalls": "<div class=\"callout warning\"><strong>不能照抄第 1 题的三角形面积。</strong>原理同样是累加，具体图像与积分值需要按本题重新计算。更不能把最后一刻的加速度当作全程恒定。</div>"
+      },
+      "answer_html": "<div class=\"math-display\" data-tex=\"v(2\\,\\mathrm{s})=8\\,\\mathrm{m/s}\" data-formula-id=\"review-square-answer\" data-source=\"derived:review-force-square\"></div>"
+    }
+  ],
+  "sources_html": "<p>所有题目与配图均为通用模板原创示例；配图不是用户 PDF/PPT 的原题截图。真实使用时须替换为实际题源裁图及文件、页码、题号，核对全部条件与公式后填写实际验证记录。不能将本示例记入用户课程覆盖。</p>"
+}

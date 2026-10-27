@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build study-flow's fixed index, chapter or homework HTML from an authored JSON spec."""
+"""Build study-flow's index, chapter, homework or question-type review HTML."""
 
 import argparse
 from html import escape
@@ -20,7 +20,7 @@ PARTS = {
     "en": [("original", "原题", "en"), ("translation", "中文翻译", "zh-CN"), ("terms", "中英专业名词", "zh-CN"), ("solution_en", "English Solution", "en"), ("analysis_zh", "中文解析", "zh-CN"), ("theory", "公式定理 / 理论依据", "zh-CN"), ("pitfalls", "易错点", "zh-CN")],
     "zh": [("original", "原题", "zh-CN"), ("analysis_zh", "中文解题过程与解析", "zh-CN"), ("theory", "公式定理 / 理论依据", "zh-CN"), ("pitfalls", "易错点", "zh-CN")],
 }
-LABELS = {"index": "课程学习库", "chapter": "课程知识总结", "homework": "作业解析与复习"}
+LABELS = {"index": "课程学习库", "chapter": "课程知识总结", "homework": "作业解析与复习", "review": "题型复习"}
 
 
 def required(mapping, key):
@@ -39,7 +39,8 @@ def identifier(value):
 def build(spec, asset_prefix="assets/study-flow/v1"):
     kind = spec.get("kind")
     if kind not in LABELS:
-        raise ValueError("kind must be index, chapter or homework")
+        raise ValueError("kind must be index, chapter, homework or review")
+    is_review = kind == "review"
     title, course = required(spec, "title"), required(spec, "course")
     parts, toc = [], []
     image_links = []
@@ -64,13 +65,31 @@ def build(spec, asset_prefix="assets/study-flow/v1"):
                 panel(key, label, required(sections, key), number)
     else:
         if omitted:
-            raise ValueError("Homework section omissions must be specified per problem")
-        panel("overview", "本次作业", required(spec, "overview_html"))
+            raise ValueError("Problem section omissions must be specified per problem")
+        panel("overview", "复习范围与顺序" if is_review else "本次作业", required(spec, "overview_html"))
+        if is_review:
+            panel("types", "题型与解法地图", required(spec, "types_html"))
+            panel("quick-reference", "公式 / 方法速查", required(spec, "quick_reference_html"))
         problems = spec.get("problems", [])
         if not problems:
-            raise ValueError("Homework needs at least one problem")
+            raise ValueError("Homework or review needs at least one problem")
         used = {"overview", "answers", "sources", "content", "page-nav", "study-sidebar", "original-images", "course-search"}
-        for problem in problems:
+        if is_review:
+            used.update({"types", "quick-reference"})
+        images = spec.get("source_images", [])
+        images_by_id = {}
+        for image in images:
+            image_id = identifier(image.get("id"))
+            if image_id in used:
+                raise ValueError(f"Duplicate or reserved image id: {image_id}")
+            used.add(image_id)
+            src = required(image, "src")
+            required(image, "label")
+            url = urlsplit(src)
+            if url.scheme or url.netloc or src.startswith(("/", "\\")):
+                raise ValueError("Source images must use relative local paths")
+            images_by_id[image_id] = image
+        for problem_number, problem in enumerate(problems, 1):
             key = identifier(problem.get("id"))
             if key in used:
                 raise ValueError(f"Duplicate or reserved problem id: {key}")
@@ -88,32 +107,49 @@ def build(spec, asset_prefix="assets/study-flow/v1"):
                 raise ValueError(f"Unexpected fields for {language} problem {key}")
             toc.append((key, label))
             branch_label = "英文材料 · 完整双语流程" if language == "en" else "中文材料 · 中文流程"
-            body = [f'<article class="problem" id="{key}" data-language="{language}"><h2>{escape(label)}</h2><span class="tag">{branch_label}</span>']
+            if is_review:
+                body = [f'<article class="problem review-topic" id="{key}" data-language="{language}"><header class="review-topic-head"><div><span class="review-number">{problem_number:02} / 题型代表题</span><h2>{escape(label)}</h2><span class="tag">{branch_label}</span></div><label class="review-mastery"><input type="checkbox" data-review-progress="{key}">已掌握</label></header><div class="review-topic-grid"><div class="review-explanation">']
+            else:
+                body = [f'<article class="problem" id="{key}" data-language="{language}"><h2>{escape(label)}</h2><span class="tag">{branch_label}</span>']
             for number, (name, heading, lang) in enumerate(PARTS[language], 1):
                 if name not in skips:
                     text = required(fields, name)
-                    body.append(f'<section class="problem-part" id="{key}-{name}" data-part="{name}" lang="{lang}"><h3><span class="step-label">{number:02}</span>{heading}</h3>{text}</section>')
-            body.append(f'<div class="answer"><strong>答案 / 结论</strong>{required(problem, "answer_html")}</div></article>')
+                    part_id = f"{key}-{name}"
+                    if part_id in used:
+                        raise ValueError(f"Duplicate or reserved part id: {part_id}")
+                    used.add(part_id)
+                    body.append(f'<section class="problem-part" id="{part_id}" data-part="{name}" lang="{lang}"><h3><span class="step-label">{number:02}</span>{heading}</h3>{text}</section>')
+            body.append(f'<div class="answer"><strong>答案 / 结论</strong>{required(problem, "answer_html")}</div>')
+            if is_review:
+                refs = problem.get("source_image_ids", [])
+                if not isinstance(refs, list) or not all(isinstance(ref, str) for ref in refs) or len(refs) != len(set(refs)):
+                    raise ValueError(f"source_image_ids must be a list of unique image IDs: {key}")
+                if not refs and not spec.get("source_images_note"):
+                    raise ValueError(f"Review problem needs source_image_ids or a truthful source_images_note: {key}")
+                body.append('</div><aside class="review-visual" aria-label="对应原题或课件图">')
+                for image_id in refs:
+                    if image_id not in images_by_id:
+                        raise ValueError(f"Unknown source image {image_id!r} in {key}")
+                    image = images_by_id[image_id]
+                    src, caption = escape(image["src"], quote=True), escape(image["label"])
+                    body.append(f'<figure><a href="#{image_id}" data-source-jump><img src="{src}" alt="{caption}"></a><figcaption>{caption} · <a href="#{image_id}" data-source-jump>查看原图与返回入口</a></figcaption></figure>')
+                if not refs:
+                    body.append(f'<p class="source-note">{escape(spec["source_images_note"])}</p>')
+                body.append('</aside></div>')
+            body.append('</article>')
             parts.append("\n".join(body))
         answer_rows = "".join(f'<tr><td><a href="#{escape(p["id"], quote=True)}">{escape(p["title"])}</a></td><td>{p["answer_html"]}</td></tr>' for p in problems)
         panel("answers", "答案速查", '<div class="table-scroll"><table><thead><tr><th>题目</th><th>结论</th></tr></thead><tbody>' + answer_rows + '</tbody></table></div>')
-        images = spec.get("source_images", [])
         if not images and not spec.get("source_images_note"):
             raise ValueError("Homework needs source_images, or source_images_note explaining why no images were supplied")
         if images:
             gallery = ['<p>原图保存在本学习库。点击侧栏入口前会记录阅读位置，可随时返回。</p><button type="button" class="source-return" data-source-return hidden>← 返回刚才的阅读位置</button>']
             for image in images:
-                key = identifier(image.get("id"))
-                if key in used:
-                    raise ValueError(f"Duplicate or reserved image id: {key}")
-                used.add(key)
+                key = image["id"]
                 src, label = required(image, "src"), required(image, "label")
-                url = urlsplit(src)
-                if url.scheme or url.netloc or src.startswith(("/", "\\")):
-                    raise ValueError("Source images must use relative local paths")
                 image_links.append((key, label))
                 gallery.append(f'<figure id="{key}"><img src="{escape(src, quote=True)}" alt="{escape(label, quote=True)}"><figcaption>{escape(label)}</figcaption><button type="button" class="source-return" data-source-return hidden>← 返回刚才的阅读位置</button></figure>')
-            panel("original-images", "作业原图", "\n".join(gallery))
+            panel("original-images", "原题与课件原图" if is_review else "作业原图", "\n".join(gallery))
 
     panel("sources", "来源与核验记录", required(spec, "sources_html"))
     home = spec.get("home", "index.html")
@@ -123,11 +159,18 @@ def build(spec, asset_prefix="assets/study-flow/v1"):
     source_shortcuts = ""
     source_mobile_link = ""
     if image_links:
-        source_shortcuts = '<div class="source-shortcuts" aria-label="作业原图快捷入口"><strong>作业原图</strong><a href="#original-images" data-source-jump>查看全部原图 →</a>' + "".join(f'<a href="#{key}" data-source-jump>{escape(label)}</a>' for key, label in image_links) + '</div>'
-        source_mobile_link = '<a class="source-mobile-link" href="#original-images" data-source-jump>查看作业原图</a>'
+        source_label = "原题与课件原图" if is_review else "作业原图"
+        source_shortcuts = f'<div class="source-shortcuts" aria-label="{source_label}快捷入口"><strong>{source_label}</strong><a href="#original-images" data-source-jump>查看全部原图 →</a>' + "".join(f'<a href="#{key}" data-source-jump>{escape(label)}</a>' for key, label in image_links) + '</div>'
+        source_mobile_link = f'<a class="source-mobile-link" href="#original-images" data-source-jump>查看{source_label}</a>'
     tags = [course, LABELS[kind]] + spec.get("tags", [])
     meta = "".join(f'<span>{escape(str(tag))}</span>' for tag in tags)
     subtitle = escape(spec.get("subtitle", "知识、方法与解题资产，持续积累以备期末复习。"))
+    review_css = f'<link rel="stylesheet" href="{asset_prefix}/study-review.css">' if is_review else ""
+    review_topbar = ""
+    review_controls = ""
+    if is_review:
+        review_topbar = f'<div class="review-topbar"><strong>{escape(title)}</strong><div class="review-progress"><span data-review-status aria-live="polite">已掌握 0 / {len(problems)}</span><progress data-review-meter value="0" max="{len(problems)}" aria-label="手动标记掌握进度"></progress></div></div>'
+        review_controls = '<div class="review-controls" role="group" aria-label="复习阅读模式"><button type="button" data-review-mode="full" aria-pressed="true">讲解</button><button type="button" data-review-mode="practice" aria-pressed="false">只做题</button><button type="button" data-review-mode="formulas" aria-pressed="false">公式速查</button></div>'
     content = "\n".join(parts)
     return f'''<!doctype html>
 <html lang="zh-CN" data-study-kind="{kind}" data-template-version="1">
@@ -137,6 +180,7 @@ def build(spec, asset_prefix="assets/study-flow/v1"):
   <title>{escape(title)} · {escape(course)}</title>
   <link rel="stylesheet" href="{asset_prefix}/vendor/katex/katex.min.css">
   <link rel="stylesheet" href="{asset_prefix}/study-ui.css">
+  {review_css}
   <script defer src="{asset_prefix}/vendor/katex/katex.min.js"></script>
   <script defer src="{asset_prefix}/vendor/katex/mhchem.min.js"></script>
   <script defer src="{asset_prefix}/search-index.js"></script>
@@ -144,6 +188,7 @@ def build(spec, asset_prefix="assets/study-flow/v1"):
 </head>
 <body>
 <a class="skip-link" href="#content">跳转到正文</a>
+{review_topbar}
 <header class="hero"><div class="hero-inner">
   <p class="eyebrow">STUDY LIBRARY / 学习资产</p><h1>{escape(title)}</h1>
   <p class="subtitle">{subtitle}</p><div class="hero-meta">{meta}</div>
@@ -156,7 +201,7 @@ def build(spec, asset_prefix="assets/study-flow/v1"):
     <nav id="page-nav"><a class="home-link" href="{escape(home, quote=True)}">← 学习库总目录</a>{nav}</nav>
     <div class="toolbar"><button type="button" data-expand>展开 / 收起自测</button><button type="button" data-print>打印 / 保存 PDF</button></div>
   </aside>
-  <main id="content"><section class="panel search-panel" id="course-search" data-no-search>
+  <main id="content">{review_controls}<section class="panel search-panel" id="course-search" data-no-search>
     <h2>关键词搜索</h2><form class="search-form" role="search">
       <label class="search-label" for="keyword-search">查找知识点、题号、中英文术语</label>
       <div class="search-controls"><input id="keyword-search" type="search" data-search-input placeholder="例如：条件概率、velocity、初值 积分" autocomplete="off">
@@ -195,7 +240,7 @@ def main():
         parser.error("Bundled local KaTeX runtime is missing")
     target = root / "assets/study-flow/v1"
     target.mkdir(parents=True, exist_ok=True)
-    for name in ("study-ui.css", "study-ui.js"):
+    for name in ("study-ui.css", "study-ui.js", "study-review.css"):
         shutil.copy2(ASSETS / name, target / name)
     shutil.copytree(ASSETS / "vendor", target / "vendor", dirs_exist_ok=True)
     output.write_text(html, encoding="utf-8")

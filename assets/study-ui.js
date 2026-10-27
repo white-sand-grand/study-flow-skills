@@ -162,17 +162,63 @@ document.querySelector("[data-search-clear]")?.addEventListener("click", () => {
 });
 searchMore?.addEventListener("click", () => { searchLimit += 30; renderSearch(); });
 
+// Review mode reuses the same search, source return, formula and sidebar behavior.
+const reviewRoot = document.documentElement;
+const reviewButtons = [...document.querySelectorAll("[data-review-mode]")];
+function setReviewMode(mode) {
+  if (!reviewButtons.length) return;
+  reviewRoot.dataset.reviewMode = mode;
+  reviewButtons.forEach(button => button.setAttribute("aria-pressed", String(button.dataset.reviewMode === mode)));
+}
+reviewButtons.forEach(button => button.addEventListener("click", () => setReviewMode(button.dataset.reviewMode)));
+if (reviewButtons.length) setReviewMode("full");
+
+const progressChecks = [...document.querySelectorAll("[data-review-progress]")];
+const reviewStorageKey = `study-flow-review:${location.pathname}`;
+if (progressChecks.length) {
+  let saved = {};
+  try { saved = JSON.parse(localStorage.getItem(reviewStorageKey) || "{}") || {}; } catch { /* Progress still works without persistent storage. */ }
+  const updateReviewProgress = () => {
+    const done = progressChecks.filter(check => check.checked).length;
+    document.querySelector("[data-review-status]").textContent = `已掌握 ${done} / ${progressChecks.length}`;
+    document.querySelector("[data-review-meter]").value = done;
+  };
+  for (const check of progressChecks) {
+    check.checked = saved[check.dataset.reviewProgress] === true;
+    check.addEventListener("change", () => {
+      const values = Object.fromEntries(progressChecks.map(item => [item.dataset.reviewProgress, item.checked]));
+      try { localStorage.setItem(reviewStorageKey, JSON.stringify(values)); } catch { /* Do not block learning when storage is unavailable. */ }
+      updateReviewProgress();
+    });
+  }
+  updateReviewProgress();
+}
+
 function revealHashTarget() {
   let id;
   try { id = decodeURIComponent(location.hash.slice(1)); } catch { return; }
   const target = document.getElementById(id);
   if (!target) return;
+  if (reviewButtons.length) {
+    const mode = reviewRoot.dataset.reviewMode;
+    if ((mode === "formulas" && (target.closest(".review-topic") || target.closest("#answers")))
+        || (mode === "practice" && (target.closest(".problem-part:not([data-part='original']):not([data-part='translation']):not([data-part='terms'])") || target.closest(".answer, #answers")))) {
+      setReviewMode("full");
+    }
+    if (target.closest("#quick-reference")) setReviewMode("formulas");
+  }
   for (let element = target.parentElement; element; element = element.parentElement) {
     if (element.tagName === "DETAILS") element.open = true;
   }
   target.scrollIntoView({ behavior: "instant", block: "start" });
 }
 window.addEventListener("hashchange", revealHashTarget);
+if (reviewButtons.length) document.addEventListener("click", event => {
+  const link = event.target.closest("a[href]");
+  if (!link) return;
+  const url = new URL(link.href, location.href);
+  if (url.pathname === location.pathname && url.hash && url.hash === location.hash) revealHashTarget();
+});
 if (location.hash) document.fonts.ready.then(() => requestAnimationFrame(revealHashTarget));
 
 // A source round trip restores the actual reading offset, not just the page top.
@@ -185,6 +231,7 @@ document.querySelectorAll("[data-source-jump]").forEach(link => {
       readingPosition = {
         x: scrollX, y: scrollY, hash: location.hash,
         navOpen: nav?.classList.contains("is-open"),
+        reviewMode: reviewRoot.dataset.reviewMode,
         sidebarTop: document.querySelector(".sidebar")?.scrollTop || 0,
         focus: link,
       };
@@ -198,6 +245,7 @@ document.querySelectorAll("[data-source-return]").forEach(button => {
     const saved = readingPosition;
     nav?.classList.toggle("is-open", Boolean(saved.navOpen));
     menu?.setAttribute("aria-expanded", String(Boolean(saved.navOpen)));
+    if (reviewButtons.length) setReviewMode(saved.reviewMode || "full");
     try { history.replaceState(history.state, "", location.pathname + location.search + saved.hash); } catch { /* Scroll restoration still works on restrictive file hosts. */ }
     document.querySelectorAll("[data-source-return]").forEach(control => { control.hidden = true; });
     saved.focus?.focus({ preventScroll: true });
